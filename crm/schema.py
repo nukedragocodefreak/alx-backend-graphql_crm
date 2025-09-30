@@ -35,7 +35,12 @@ class OrderType(DjangoObjectType):
 # --------------------
 # Mutations
 # --------------------
+class Query(graphene.ObjectType):
+    all_customers = graphene.List(CustomerType)
 
+    def resolve_all_customers(self, info):
+        return Customer.objects.all()
+    
 class CreateCustomer(graphene.Mutation):
     customer = graphene.Field(CustomerType)
     success = graphene.Boolean()
@@ -185,3 +190,5 @@ class Mutation(graphene.ObjectType):
     bulk_create_customers = BulkCreateCustomers.Field()
     create_product = CreateProduct.Field()
     create_order = CreateOrder.Field()
+
+    
